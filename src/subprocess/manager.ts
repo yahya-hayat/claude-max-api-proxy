@@ -128,7 +128,7 @@ export class ClaudeSubprocess extends EventEmitter {
    * Build CLI arguments array
    */
   private buildArgs(prompt: string, options: SubprocessOptions): string[] {
-    const args = [
+const args = [
       "--print", // Non-interactive mode
       "--output-format",
       "stream-json", // JSON streaming output
@@ -137,9 +137,10 @@ export class ClaudeSubprocess extends EventEmitter {
       "--model",
       options.model, // Model alias (opus/sonnet/haiku)
       "--no-session-persistence", // Don't save sessions
+      "--system-prompt",
+      process.env.CLAUDE_SYSTEM_PROMPT || "You are Claude Code, Anthropic's official CLI for Claude.", // Minimum required system prompt
       prompt, // Pass prompt as argument (more reliable than stdin)
     ];
-
     if (options.sessionId) {
       args.push("--session-id", options.sessionId);
     }

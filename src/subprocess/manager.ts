@@ -82,8 +82,9 @@ export class ClaudeSubprocess extends EventEmitter {
         });
 
         // Close stdin since we pass prompt as argument
-        this.process.stdin?.end();
-
+this.process.stdin?.write(prompt);
+this.process.stdin?.end();
+        
         console.error(`[Subprocess] Process spawned with PID: ${this.process.pid}`);
 
         // Parse JSON stream from stdout
@@ -139,7 +140,6 @@ const args = [
       "--no-session-persistence", // Don't save sessions
       "--system-prompt",
       process.env.CLAUDE_SYSTEM_PROMPT || "You are Claude Code, Anthropic's official CLI for Claude.", // Minimum required system prompt
-      prompt, // Pass prompt as argument (more reliable than stdin)
     ];
     if (options.sessionId) {
       args.push("--session-id", options.sessionId);
